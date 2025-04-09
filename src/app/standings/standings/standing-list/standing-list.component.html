@@ -1,0 +1,73 @@
+<h1 class="display-5">ترتيب الفرق</h1>
+
+<nav aria-label="..." class="float-end">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{ disabled: weakNumber <= 1 }">
+      <a
+        class="page-link"
+        (click)="goToPrev()"
+        tabindex="-1"
+        aria-disabled="true"
+        >السابق</a
+      >
+    </li>
+    <li class="page-item disabled">
+      <a class="page-link" href="#">{{ weakNumber }}</a>
+    </li>
+    <li class="page-item" [ngClass]="{ disabled: weakNumber >= maxWeakNumber }">
+      <a class="page-link" (click)="goToNext()">التالي</a>
+    </li>
+  </ul>
+</nav>
+
+<a class="btn btn-outline-secondary float-end me-2" (click)="onExportToExcel()"
+  >تـحميل الملف
+</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">م</th>
+      <th scope="col">النادي</th>
+      <th scope="col text-center">لعب</th>
+      <th scope="col">فاز</th>
+      <th scope="col">تعادل</th>
+      <th scope="col">هزم</th>
+      <th scope="col">له</th>
+      <th scope="col">عليه</th>
+      <th scope="col">فرق الاهداف</th>
+      <th scope="col">النقاط</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let standing of standings; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ standing.clubName }}</td>
+
+      <td>
+        {{ standing.played }}
+      </td>
+      <td>
+        {{ standing.wins }}
+      </td>
+      <td>
+        {{ standing.draws }}
+      </td>
+      <td>
+        {{ standing.losses }}
+      </td>
+      <td>
+        {{ standing.goals }}
+      </td>
+      <td>
+        {{ standing.goalsAgainst }}
+      </td>
+      <td>
+        {{ standing.goalsDiff }}
+      </td>
+      <td>
+        {{ standing.points }}
+      </td>
+    </tr>
+  </tbody>
+</table>

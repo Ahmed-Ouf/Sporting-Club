@@ -1,0 +1,77 @@
+<h1 class="display-5">الاندية</h1>
+<a
+  class="btn btn-outline-primary float-end"
+  [routerLink]="['/club-create']"
+  routerLinkActive="active"
+  ariaCurrentWhenActive="page"
+  >انشاء نادي</a
+>
+<a class="btn btn-outline-secondary float-end me-2" (click)="onExportToExcel()"
+  >تـحميل الملف
+</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">م</th>
+      <th scope="col">النادي</th>
+      <th scope="col">الملعب</th>
+      <th scope="col-2">اللوجو</th>
+      <th scope="col">الزي الرسمي</th>
+      <th scope="col">الزي الاحتياطي</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let club of clubs; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ club.name }}</td>
+      <td>{{ club.stadium }}</td>
+      <td class="col-2">
+        <div class="col-4">
+          <img
+            [src]="club.logo"
+            alt="Logo"
+            class="img-thumbnail"
+            style="width: 60px; height: 60px"
+          />
+        </div>
+      </td>
+      <td>
+        <input type="color" [value]="club.defaultColor" disabled readonly />
+      </td>
+      <td>
+        <input type="color" [value]="club.otherColor" disabled readonly />
+      </td>
+      <td>
+        <button
+          class="btn btn-outline-secondary"
+          (click)="goToEditPage(club.id)"
+        >
+          تعديل
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="..." class="float-end">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{ disabled: pageNumber == 1 }">
+      <a
+        class="page-link"
+        (click)="goToPrev()"
+        tabindex="-1"
+        aria-disabled="true"
+        >السابق</a
+      >
+    </li>
+    <li class="page-item disabled">
+      <a class="page-link" href="#">{{ pageNumber }}</a>
+    </li>
+    <li
+      class="page-item"
+      [ngClass]="{ disabled: totalCount <= pageSize * pageNumber }"
+    >
+      <a class="page-link" (click)="goToNext()">التالي</a>
+    </li>
+  </ul>
+</nav>

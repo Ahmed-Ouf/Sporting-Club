@@ -1,0 +1,114 @@
+<h1 class="display-6">انشاء نادي</h1>
+<form
+  [formGroup]="clubForm"
+  (ngSubmit)="onClubFormSubmit()"
+  class="row g-1 needs-validation"
+  novalidate
+>
+  <div class="col-6">
+    <label for="code">كود النادي</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      formControlName="code"
+    />
+    <div *ngIf="clubForm.pending" class="clearfix">
+      <div class="spinner-grow float-end" role="status"></div>
+    </div>
+    <div *ngIf="isRequiredByType('code', 'required')" class="text-danger">
+      هذا الحقل مطلوب
+    </div>
+    <div *ngIf="isRequiredByType('code', 'codeExist')" class="text-danger">
+      هذا الكود موجود بالفعل
+    </div>
+  </div>
+  <div class="col-6">
+    <label for="name">اسم النادي</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      formControlName="name"
+      id="name"
+      required
+    />
+    <div *ngIf="isRequired('name')" class="text-danger">هذا الحقل مطلوب</div>
+  </div>
+  <div class="col-6">
+    <label for="logo">شعار النادي</label>
+    <input
+      #file
+      type="file"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      id="logo"
+      formControlName="imagefile"
+      (change)="upload(file.files)"
+      required
+    />
+    <div *ngIf="isRequired('logo')" class="text-danger">هذا الحقل مطلوب</div>
+    <div class="col-1">
+      <img *ngIf="image" [src]="image" alt="logo" class="img-thumbnail" />
+    </div>
+  </div>
+  <div class="col-6">
+    <label for="stadium">الملعب</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      formControlName="stadium"
+      id="stadium"
+      required
+    />
+    <div *ngIf="isRequired('stadium')" class="text-danger">هذا الحقل مطلوب</div>
+  </div>
+  <div class="col-6">
+    <label for="defaultColor">لون الزي الرسمي</label>
+    <input
+      type="color"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      formControlName="defaultColor"
+      id="defaultColor"
+      required
+    />
+    <div *ngIf="isRequired('defaultColor')" class="text-danger">
+      هذا الحقل مطلوب
+    </div>
+  </div>
+  <div class="col-6 mb-2">
+    <label for="otherColor">لون الزي الثانوي</label>
+    <input
+      type="color"
+      class="form-control"
+      placeholder="ادخل الحقل"
+      formControlName="otherColor"
+      id="otherColor"
+      required
+    />
+    <div *ngIf="isRequired('otherColor')" class="text-danger">
+      هذا الحقل مطلوب
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button
+      [disabled]="clubForm.invalid"
+      type="submit"
+      class="btn btn-primary mx-2"
+    >
+      حفظ
+    </button>
+    <button
+      [disabled]="!clubForm.value.id"
+      type="button"
+      class="btn btn-danger mx-2"
+      (click)="onDelete()"
+    >
+      حذف
+    </button>
+    <a class="btn btn-outline-secondary" [routerLink]="['/club-list']">رجوع</a>
+  </div>
+</form>

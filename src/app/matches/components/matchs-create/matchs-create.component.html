@@ -1,0 +1,168 @@
+<h1
+  class="display-6"
+  *ngIf="currentMatchId == '00000000-0000-0000-0000-000000000000'"
+>
+  اضافة مباراة
+</h1>
+<h1
+  class="display-6"
+  *ngIf="currentMatchId != '00000000-0000-0000-0000-000000000000'"
+>
+  تعديل مباراة
+</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card text-dark bg-info mb-3">
+        <div class="card-body">
+          <form
+            [formGroup]="matchForm"
+            (ngSubmit)="onMatchFormSubmit()"
+            class="row g-1 needs-validation"
+            novalidate
+          >
+            <div class="col-6 px-4 mb-2 px-3">
+              <label for="code">رقم المباراة</label>
+              <input
+                type="text"
+                class="form-control form-control-loading"
+                placeholder="ادخل الحقل"
+                formControlName="code"
+              />
+              <div *ngIf="matchForm.pending" class="clearfix">
+                <div class="spinner-grow float-end" role="status"></div>
+              </div>
+              <div
+                *ngIf="isRequiredByType('code', 'required')"
+                class="text-danger"
+              >
+                هذا الحقل مطلوب
+              </div>
+              <div
+                *ngIf="isRequiredByType('code', 'codeExist')"
+                class="text-danger"
+              >
+                هذا الكود موجود بالفعل
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2">
+              <label for="weakNumber">رقم الاسبوع</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="ادخل الحقل"
+                formControlName="weakNumber"
+              />
+              <div *ngIf="isRequired('weakNumber')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2">
+              <label for="firstClubId">الفريق الاول </label>
+              <select formControlName="firstClubId" required>
+                <option disabled>اختار الفريق الاول</option>
+                <option
+                  *ngFor="let club of firstClubList$ | async"
+                  [ngValue]="club.id"
+                >
+                  {{ club.name }}
+                </option>
+              </select>
+              <div *ngIf="isRequired('firstClubId')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2">
+              <label for="secondClubId">الفريق الثاني </label>
+              <select formControlName="secondClubId" required>
+                <option disabled>اختار الفريق الثاني</option>
+                <option
+                  *ngFor="let club of secondClubList$ | async"
+                  [ngValue]="club.id"
+                >
+                  {{ club.name }}
+                </option>
+              </select>
+              <div *ngIf="isRequired('secondClubId')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2">
+              <label for="firstClubGoals">اهداف الفريق الاول</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="ادخل الحقل"
+                formControlName="firstClubGoals"
+                id="firstClubGoals"
+              />
+              <div *ngIf="isRequired('firstClubGoals')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2">
+              <label for="secondClubGoals">اهداف الفريق الثاني</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="ادخل الحقل"
+                formControlName="secondClubGoals"
+                id="secondClubGoals"
+              />
+              <div *ngIf="isRequired('secondClubGoals')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2 mb-2">
+              <label for="secondClubGoals"> توقيت المباراة</label>
+              <input
+                type="time"
+                class="form-control"
+                placeholder="ادخل الحقل"
+                formControlName="matchTime"
+                id="matchTime"
+                required
+              />
+              <div *ngIf="isRequired('matchTime')" class="text-danger">
+                هذا الحقل مطلوب
+              </div>
+            </div>
+            <div class="col-6 px-4 mb-2 mb-2">
+              <label for="date">التاريخ</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="ادخل الحقل"
+                formControlName="date"
+                id="matchTime"
+              />
+            </div>
+
+            <div class="text-center">
+              <button
+                [disabled]="matchForm.invalid"
+                type="submit"
+                class="btn btn-primary mx-2"
+              >
+                حفظ
+              </button>
+              <button
+                [disabled]="!matchForm.value.id"
+                type="button"
+                class="btn btn-danger mx-2"
+                (click)="onDelete()"
+              >
+                حذف
+              </button>
+              <a
+                class="btn btn-outline-secondary"
+                [routerLink]="['/match-list']"
+                >رجوع</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

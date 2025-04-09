@@ -1,0 +1,144 @@
+<h1 class="display-5">المباريات</h1>
+<a
+  class="btn btn-outline-primary float-end"
+  [routerLink]="['/match-create']"
+  routerLinkActive="active"
+  ariaCurrentWhenActive="page"
+>
+  اضافة مباراة</a
+>
+<a class="btn btn-outline-secondary float-end me-2" (click)="onExportToExcel()"
+  >تـحميل الملف
+</a>
+<p>
+  <button
+    class="btn btn-primary"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#collapseExample"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
+    البحث
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <div class="row">
+      <div class="col-3">
+        <label for="secondClubId"> الفريق</label>
+
+        <select
+          class="form-select"
+          [(ngModel)]="selectedClub"
+          (change)="onSelectChange()"
+        >
+          <option [ngValue]="null" selected>الكل</option>
+          <option *ngFor="let club of clubList$ | async" [ngValue]="club">
+            {{ club.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-3">
+        <label for="secondClubId"> الموسم</label>
+
+        <select
+          class="form-select"
+          [(ngModel)]="selectedSeason"
+          (change)="onSelectSeasonChange()"
+        >
+          <option [ngValue]="null" selected>الكل</option>
+          <option *ngFor="let season of seasons" [ngValue]="season">
+            {{ season }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col" class="text-center">م</th>
+      <th scope="col" class="text-center">الاسبوع</th>
+      <th scope="col" class="text-center">رقم المباراة</th>
+      <th scope="col" class="text-center">الفريق الاول</th>
+      <th scope="col" class="text-center">الفريق الثاني</th>
+      <th scope="col" class="text-center">ملعب المباراة</th>
+      <th scope="col" class="text-center">وقت المباراة</th>
+      <th scope="col" class="text-center"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let match of filteredMatches; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ match.weakNumber }}</td>
+      <td>{{ match.code }}</td>
+
+      <td class="col-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">{{ match.firstClub.name }}</div>
+              <div class="col-3">
+                <div>
+                  <img
+                    style="height: 50px; width: 50px"
+                    [src]="match.firstClub.logo"
+                    alt="Logo"
+                    class="img-thumbnail"
+                  />
+                </div>
+              </div>
+              <div class="col-3 align-middle">
+                <span class="badge bg-info text-dark p-3">
+                  {{ match.firstClubGoals }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+
+      <td class="col-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">{{ match.secondClub.name }}</div>
+              <div class="col-3">
+                <div>
+                  <img
+                    style="height: 50px; width: 50px"
+                    [src]="match.secondClub.logo"
+                    alt="Logo"
+                    class="img-thumbnail"
+                  />
+                </div>
+              </div>
+              <div class="col-3 align-middle">
+                <span class="badge bg-info text-dark p-3">
+                  {{ match.firstClubGoals }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        {{ match.firstClub.stadium }}
+      </td>
+      <td>
+        {{ match.matchTime }}
+      </td>
+      <td>
+        <button
+          class="btn btn-outline-secondary"
+          (click)="goToEditPage(match.id)"
+        >
+          تعديل
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
